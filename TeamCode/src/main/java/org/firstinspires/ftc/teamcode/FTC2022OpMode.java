@@ -40,6 +40,9 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 Gamepad newGamepad = new Gamepad(this);
                 newGamepad.copy(gamepad1);
                 this.gamepad1 = newGamepad;
+                Gamepad newGamepad2 = new Gamepad(this);
+                newGamepad2.copy(gamepad2);
+                this.gamepad2 = newGamepad2;
             } catch (Exception e) {
                 telemetry.addData("Status", "Exception");
                 telemetry.update();
@@ -62,41 +65,34 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 this.message = "driving control";
                 telemetry.update();
             }
-            if (this.gamepad1.a) {
-                controls = 1;
-                this.message = "tower control";
-                telemetry.update();
-            }
-            if (controls == 0) { //driving control mode
+            
+              //driving control mode
                 //frontLeft.setPower(1);
                 //frontRight.setPower(-1);
                 leftWheel(this.gamepad1.left_stick_y/3);
                 rightWheel(this.gamepad1.right_stick_y/3);
-            }
-            if (controls == 1) { //tower control mode
-                if (this.gamepad1.left_bumper) {
-                    leftWheel(0.2);
-                    rightWheel(-0.2);
-                } else if (this.gamepad1.right_bumper) {
-                    leftWheel(-0.2);
-                    rightWheel(0.2);
-                } else {
-                    leftWheel(0);
-                    rightWheel(0);
-                }
-            }
-            if(this.gamepad1.x){
+            
+              
+               
+            
+            if(this.gamepad2.x){
                 raiseArm();
                 moveArm1();
                 moveArm2();
+                telemetry.adddData("Status","tower control");
+                telemetry.update();
             }
-            else if (this.gamepad1.y){
+            else if (this.gamepad2.y){
                 lowerArm();
                 unmoveArm1();
                 unmoveArm2();
+                telemetry.addData("Status","tower control");
+                telemetry.update();                  
             }
-            else if (this.gamepad1.right_bumper){
+            else if (this.gamepad2.right_bumper){
                 stopArm();
+                telemetry.addData("Status","tower control");
+                telemetry.update();
             }
         
         }
