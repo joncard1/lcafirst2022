@@ -26,33 +26,33 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
     private Servo arm2;
     private Servo claw;
     private String message;
-    
+
     public void runOpMode(){
-        expansion_Hub_2 = hardwareMap.get(Blinker.class, "Expansion Hub 2");
+        //expansion_Hub_2 = hardwareMap.get(Blinker.class, "Expansion Hub 2");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         armControl = hardwareMap.get(DcMotor.class, "armControl");
         arm1 = hardwareMap.get(Servo.class,"arm1");
-        arm2 = hardwareMap.get(Servo.class,"arm2");    
+        arm2 = hardwareMap.get(Servo.class,"arm2");
         claw = hardwareMap.get(Servo.class,"claw");
-    
+
         try {
-                Gamepad newGamepad = new Gamepad(this);
-                newGamepad.copy(gamepad1);
-                this.gamepad1 = newGamepad;
-                Gamepad newGamepad2 = new Gamepad(this);
-                newGamepad2.copy(gamepad2);
-                this.gamepad2 = newGamepad2;
-            } catch (Exception e) {
-                telemetry.addData("Status", "Exception");
-                telemetry.update();
-            }
+            Gamepad newGamepad = new Gamepad(this);
+            newGamepad.copy(gamepad1);
+            this.gamepad1 = newGamepad;
+            Gamepad newGamepad2 = new Gamepad(this);
+            newGamepad2.copy(gamepad2);
+            this.gamepad2 = newGamepad2;
+        } catch (Exception e) {
+            telemetry.addData("Status", "Exception");
+            telemetry.update();
+        }
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        
+
         this.message = "Running";
 
         // run until the end of the match (driver presses STOP)
@@ -65,21 +65,21 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 this.message = "driving control";
                 telemetry.update();
             }
-            
-              //driving control mode
-                //frontLeft.setPower(1);
-                //frontRight.setPower(-1);
-                leftWheel(this.gamepad1.left_stick_y/3);
-                rightWheel(this.gamepad1.right_stick_y/3);
-            
-              
-               
-            
+
+            //driving control mode
+            //frontLeft.setPower(1);
+            //frontRight.setPower(-1);
+            leftWheel(this.gamepad1.left_stick_y/3);
+            rightWheel(this.gamepad1.right_stick_y/3);
+
+
+
+
             if(this.gamepad2.x){
                 raiseArm();
                 moveArm1();
                 moveArm2();
-                telemetry.adddData("Status","tower control");
+                telemetry.addData("Status","tower control");
                 telemetry.update();
             }
             else if (this.gamepad2.y){
@@ -87,7 +87,7 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 unmoveArm1();
                 unmoveArm2();
                 telemetry.addData("Status","tower control");
-                telemetry.update();                  
+                telemetry.update();
             }
             else if (this.gamepad2.right_bumper){
                 telemetry.addData("Status",claw.getPosition());
@@ -98,13 +98,13 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 telemetry.addData("Status",claw.getPosition());
                 telemetry.update();
                 //claw.setPosition();
-            
-        
+            }
+
         }
     }
     public void gamepadChanged(Gamepad gamepad) {
         message = "In changed";
-    
+
     }
     public void stopMoving() {
         frontLeft.setPower(0);
@@ -117,8 +117,8 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
             frontRight.setDirection(Direction.REVERSE);
         }
         frontRight.setPower(Math.abs(throttle));
-        
-        
+
+
     }
     public void rightWheel(double throttle) {
         if(throttle > 0){
@@ -156,10 +156,10 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
     public void unmoveClaw() {
         claw.setPosition(claw.getPosition() - .5);
     }
-    
+
     public void fastArm(){
-        
-        
+
+
     }
 
 }
