@@ -1,11 +1,11 @@
 dependencies {
-    implementation 'org.firstinspires.ftc:Inspection:5.5'
-    implementation 'org.firstinspires.ftc:Blocks:5.5'
-    implementation 'org.firstinspires.ftc:RobotCore:5.5'
-    implementation 'org.firstinspires.ftc:RobotServer:5.5'
-    implementation 'org.firstinspires.ftc:OnBotJava:5.5'
-    implementation 'org.firstinspires.ftc:Hardware:5.5'
-    implementation 'org.firstinspires.ftc:FtcCommon:5.5'
+    implementation 'org.firstinspires.ftc:Inspection:8.1.1'
+    implementation 'org.firstinspires.ftc:Blocks:8.1.1'
+    implementation 'org.firstinspires.ftc:RobotCore:8.1.1'
+    implementation 'org.firstinspires.ftc:RobotServer:8.1.1'
+    implementation 'org.firstinspires.ftc:OnBotJava:8.1.1'
+    implementation 'org.firstinspires.ftc:Hardware:8.1.1'
+    implementation 'org.firstinspires.ftc:FtcCommon:8.1.1'
     implementation (name:'WirelessP2p-release', ext:'aar')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
