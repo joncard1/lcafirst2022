@@ -90,10 +90,15 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
                 telemetry.update();                  
             }
             else if (this.gamepad2.right_bumper){
-                stopArm();
-                telemetry.addData("Status","tower control");
+                telemetry.addData("Status",claw.getPosition());
                 telemetry.update();
+                //claw.setPosition();
             }
+            else if(this.gamepad2.left_bumper){
+                telemetry.addData("Status",claw.getPosition());
+                telemetry.update();
+                //claw.setPosition();
+            
         
         }
     }
