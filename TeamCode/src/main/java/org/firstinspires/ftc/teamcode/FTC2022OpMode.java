@@ -1,24 +1,15 @@
 package org.firstinspires.ftc.teamcode;
-import java.lang.Math;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
-import com.qualcomm.robotcore.hardware.Blinker;
-import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 
-public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallback {
-    private Blinker expansion_Hub_2;
+public class FTC2022OpMode extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor armControl;
@@ -28,7 +19,6 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
     private String message;
 
     public void runOpMode(){
-        //expansion_Hub_2 = hardwareMap.get(Blinker.class, "Expansion Hub 2");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         armControl = hardwareMap.get(DcMotor.class, "armControl");
@@ -37,10 +27,10 @@ public class FTC2022OpMode extends LinearOpMode implements Gamepad.GamepadCallba
         claw = hardwareMap.get(Servo.class,"claw");
 
         try {
-            Gamepad newGamepad = new Gamepad(this);
+            Gamepad newGamepad = new Gamepad();
             newGamepad.copy(gamepad1);
             this.gamepad1 = newGamepad;
-            Gamepad newGamepad2 = new Gamepad(this);
+            Gamepad newGamepad2 = new Gamepad();
             newGamepad2.copy(gamepad2);
             this.gamepad2 = newGamepad2;
         } catch (Exception e) {
