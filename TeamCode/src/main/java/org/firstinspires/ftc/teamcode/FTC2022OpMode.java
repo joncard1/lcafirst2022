@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp
 
@@ -13,17 +14,18 @@ public class FTC2022OpMode extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor armControl;
-    private Servo arm1;
-    private Servo arm2;
+    private CRServo arm1;
     private Servo claw;
     private String message;
+
+    boolean movingArm = false;
+    boolean unmovingArm = false;
 
     public void runOpMode(){
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         armControl = hardwareMap.get(DcMotor.class, "armControl");
-        arm1 = hardwareMap.get(Servo.class,"arm1");
-        arm2 = hardwareMap.get(Servo.class,"arm2");
+        arm1 = hardwareMap.get(CRServo.class,"arm1");
         claw = hardwareMap.get(Servo.class,"claw");
 
         try {
@@ -43,53 +45,57 @@ public class FTC2022OpMode extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        this.message = "Running";
-
         // run until the end of the match (driver presses STOP)
-        int controls = 0;
-        while (opModeIsActive() == true) {
-            telemetry.addData("Status", message);
-            telemetry.update();
-            if (this.gamepad1.b) {
-                controls = 0;
-                this.message = "driving control";
-                telemetry.update();
-            }
 
-            //driving control mode
-            //frontLeft.setPower(1);
-            //frontRight.setPower(-1);
+        while (opModeIsActive() == true) {
+
             leftWheel(this.gamepad1.left_stick_y/3);
             rightWheel(this.gamepad1.right_stick_y/3);
 
-
-
-
             if(this.gamepad2.x){
-                raiseArm();
                 moveArm1();
-                moveArm2();
-                telemetry.addData("Status","tower control");
-                telemetry.update();
+                movingArm = true;
             }
-            else if (this.gamepad2.y){
-                lowerArm();
+            else if (!this.gamepad2.x){
+                stopMoveArm();
+                movingArm = false;
+            }
+
+            if (this.gamepad2.y){
                 unmoveArm1();
-                unmoveArm2();
-                telemetry.addData("Status","tower control");
-                telemetry.update();
+                unmovingArm = true;
             }
-            else if (this.gamepad2.right_bumper){
+            else if (!this.gamepad2.y){
+                stopUnmoveArm();
+                unmovingArm = false;
+            }
+
+            if (this.gamepad2.right_bumper){
+                moveClaw();
                 telemetry.addData("Status",claw.getPosition());
                 telemetry.update();
                 //claw.setPosition();
             }
-            else if(this.gamepad2.left_bumper){
+            if (this.gamepad2.left_bumper){
+                unmoveClaw();
                 telemetry.addData("Status",claw.getPosition());
                 telemetry.update();
                 //claw.setPosition();
             }
 
+            if (this.gamepad2.a){
+                raiseArm();
+            }
+            else if (!this.gamepad2.a){
+                stopArm();
+            }
+
+            if (this.gamepad2.b){
+                lowerArm();
+            }
+            else if (!this.gamepad2.b){
+                stopArm();
+            }
         }
     }
     public void gamepadChanged(Gamepad gamepad) {
@@ -123,13 +129,25 @@ public class FTC2022OpMode extends LinearOpMode {
         armControl.setPower(0.1);
     }
     public void raiseArm() {
-        armControl.setPower(0.65);
+        armControl.setPower(0.55);
+    }
+    public void stopMoveArm(){
+        if (movingArm == true)
+        {
+            arm1.setPower(0);
+        }
+    }
+    public void stopUnmoveArm(){
+        if (unmovingArm == true)
+        {
+            arm1.setPower(0);
+        }
     }
     public void moveArm1() {
-        arm1.setPosition(arm1.getPosition() + .5);
-    }
-    public void moveArm2() {
-        arm2.setPosition(arm2.getPosition() + .5);
+        if (movingArm == false)
+        {
+            arm1.setPower(0.7);
+        }
     }
     public void moveClaw() {
         claw.setPosition(claw.getPosition() + .5);
@@ -138,10 +156,10 @@ public class FTC2022OpMode extends LinearOpMode {
         armControl.setPower(-0.25);
     }
     public void unmoveArm1() {
-        arm1.setPosition(arm1.getPosition() - .5);
-    }
-    public void unmoveArm2() {
-        arm2.setPosition(arm2.getPosition() - .5);
+        if (unmovingArm == false)
+        {
+            arm1.setPower(-0.7);
+        }
     }
     public void unmoveClaw() {
         claw.setPosition(claw.getPosition() - .5);
